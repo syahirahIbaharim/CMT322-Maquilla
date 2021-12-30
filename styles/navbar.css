@@ -1,0 +1,219 @@
+#navbar{
+    display: flex;
+    width: 100%;
+    padding:20px 50px 10px 40px;
+    align-items: center;
+    font-family: Cinzel;
+    position: fixed;
+    transition: 1s;
+}
+#navbar a{
+    text-decoration: none;
+    font-size: 20px;
+}
+#navbar span > a:hover{
+    transition: .1s;
+    font-weight: bold;
+    border: solid;
+    border-width: 0 0 2px 0;
+}
+#icon{
+    height: 80px;
+}
+.menu{
+    flex: 1;
+    align-items: center;
+    justify-content: space-around;
+}
+.menu span{
+    padding: 10px 15px 10px 10px;
+}
+.menu span:not(:last-child){
+    border-style: solid;
+    border-width: 0 2px 0 0;
+}
+#account{
+    margin-left: 5px;
+}
+#account-tab:hover +#drop-down-menu, #drop-down-menu:hover{
+    visibility: visible;
+    opacity: 1;
+}
+#account-tab:hover +#drop-down-menu, #drop-down-menu:hover{
+    visibility: visible;
+    opacity: 1;
+}
+#drop-down-menu{
+    position: absolute;
+    transform: translateX(-27px);
+    height: 100%;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s;
+}
+.drop-down-pointer{
+    width: 0%;
+    border: 10px solid;
+    border-color: transparent transparent #55555560 transparent;
+    margin-left: 25px;
+    filter: blur(1px);
+}
+#drop-down-menu ul::before{
+    position: absolute;
+    content: "";
+    top: -19px;
+    border: 10px solid;
+    border-color: transparent transparent white transparent;
+}
+#drop-down-menu ul{
+    position: relative;
+    background-color: white;
+    padding: 10px 25px;
+    border-radius: 5px;
+    box-shadow: 0 0 3px #55555580;
+    list-style: none;
+}
+.drop-down-list{
+    text-decoration: none;
+    font-family: AvenirLight;
+    margin: 15px 0;
+    padding-left: 2px;
+}
+.drop-down-list i{
+    width: 35px;
+}
+hr{
+    border: none;
+    background-color: #555;
+    height: 1.5px;
+    width: 105%;
+}
+#form{
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: #55555580;
+}
+.pop-up-window{
+    position: absolute;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 20px;
+    font-family: AvenirLight;
+    padding: 30px 100px;
+    top: 10%;
+    width: 700px;
+    overflow: hidden;
+}
+.pop-up-window > i{
+    position: absolute;
+    right: 5%;
+}
+.form-title{
+    display: flex;
+    justify-content: space-around;
+    height: 70px;
+    margin-bottom: 30px;
+}
+.title-border{
+    position: absolute;
+    height: 70px;
+    width: 25%;
+    border-style: solid;
+    border-color: #FFDEDE;
+    border-width: 0 0 5px 0;
+    transition: .5s;
+}
+.title-label:hover > h1, .pop-up-window > i:hover{
+    cursor: pointer;
+    color: pink;
+    transition: .2s;
+}
+input[type="radio"]{
+    display: none;
+}
+input[type="radio"]:checked + .title-label > h1{
+    font-weight: bold;
+    transition: .3s;
+    font-size: 35px;
+}
+#login-label:checked ~ .title-border{
+    left: 20%;
+}
+#signup-label:checked ~ .title-border{
+    left: 53.5%;
+}
+#form-container{
+    display: flex;
+    width: 200%;
+    justify-content: space-around;
+    transition: .3s;
+}
+.field{
+    display: grid;
+    grid-template-columns: 5% 95%;
+    margin: 30px 0px;
+    border-bottom: 2px solid;
+}
+.field >.i{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 15px;
+}
+.field > div{
+    position: relative;
+    height: 50px;
+}
+.input-label{
+    position: absolute;
+    top: 50%;
+    left: 30px;
+    transform: translateY(-50%);
+}
+.field:focus-within, .text-input:focus + .input-label, .field:focus-within .i i, #forgot a:hover, .drop-down-list:hover a, .drop-down-list:hover i, .alert{
+    color: pink;
+    transition: .3s;
+}
+.text-input:focus + .input-label, .text-input:not(:placeholder-shown) + .input-label{
+    top: -5px;
+    font-size: 15px;
+}
+.text-input:not(:focus) + .input-label{
+    transition: .3s;
+}
+.text-input{
+    position: absolute;
+    width: 90%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: none;
+    left: 30px;
+    font-family: AvenirLight;
+    font-size: 18px;
+    z-index: 1;
+}
+#forgot{
+    margin: 30px;
+}
+.button{
+    width: 300px;
+    height: 50px;
+    border-radius: 25px;
+    outline: none;
+    border: none;
+    background-color: #FFDEDE;
+    cursor: pointer;
+    font-family: Cinzel;
+    font-size: 20px;
+}
+.button:hover{
+    background-image: linear-gradient(to right, #FFDEDE, pink, #FFDEDE );
+}

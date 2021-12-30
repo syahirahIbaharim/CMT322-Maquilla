@@ -1,0 +1,86 @@
+h1{
+    font-family: Cinzel;
+    font-size: 30px;
+    font-weight: normal;
+    text-align: center;
+    margin: 10px;
+}
+
+h2{
+    font-family: Avenir;
+    font-size: 30px;
+    text-align: center;
+    margin: 10px;
+    width: 60%;
+}
+
+h3{
+    font-family: Cinzel;
+    font-size: 25px;
+    font-weight: lighter;
+    margin: 30px;
+}
+
+p{
+    font-family: AvenirLight;
+    font-size: 20px;
+    text-align: justify;
+    margin: 15px;
+}
+
+body{
+    background-image: url(https://firebasestorage.googleapis.com/v0/b/cmt322-maquilla.appspot.com/o/images%2Fhomepage%2Fhome-background.jpg?alt=media&token=d38345e3-8365-47f3-b253-739c602e491c);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    position: relative;
+}
+
+.intro{
+    display: flex;
+    width: 100%;
+    padding-top: 130px;
+    padding-bottom: 80px;
+    justify-content: center;
+    align-items: center;
+}
+
+.text{
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    margin: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+#tagline{
+    width: 350px;
+}
+
+#logo{
+    height: 400px;
+}
+
+.testimonial{
+    display: flex;
+}
+
+.slideshow{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#left{
+    background-color: #FFDEDE;
+}
+
+#right{
+    background-color: #FFE8E0;
+}
+
+#flower{
+    height: 700px;
+}

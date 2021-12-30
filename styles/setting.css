@@ -1,0 +1,131 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    color: #444;
+}
+body{
+    background: linear-gradient(to bottom right, #FFE8E0 0%, #FFDEDE 100%);
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+}
+main{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 0 80px;
+    margin: 50px 0;
+    background-color: white;
+    box-shadow: 0 0 10px #55555580;
+    width: 650px;
+}
+h1{
+    font-family: Cinzel;
+    font-size: 50px;
+    font-weight: normal;
+    padding-bottom: 15px;
+    margin: 30px 0;
+    border-style: solid;
+    border-color: #FFDEDE;
+    border-width: 0 0 5px 0;
+    text-align: center;
+    width: 100%;
+}
+form{
+    align-items: center;
+    justify-content: center;
+}
+.field{
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.field:focus-within >i{
+    color: #FFDEDE;
+}
+.bio{
+    margin-top: 50px;
+    align-items: stretch;
+}
+label{
+    font-family: Cinzel;
+    font-size: 20px;
+}
+i{
+    font-size: large;
+    margin: 5px 20px;
+    transition: .3s;
+}
+.text-input{
+    background: none;
+    outline: none;
+    border-style: solid;
+    border-width: 0 0 2px 0;
+    font-family: Avenir;
+    font-size: 20px;
+    height: 50px;
+    flex-grow: 1;
+    transition: .3s;
+}
+#bio-input{
+    resize: none;
+    border-radius: 5px;
+    border-width: 2px;
+    padding: 5px;
+    height: 100px;
+    font-size: 15px;
+}
+.text-input:focus{
+    border-color: #FFDEDE;
+    border-width: 0 0 3px 0;
+}
+#price-range-field{
+    display: none;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+.price-range{
+    display: flex;
+    margin: 20px 0;
+}
+.price-range label{
+    font-family: AvenirLight;
+}
+.price-range .field:last-child{
+    margin-left: 20px;
+}
+.price-range .text-input{
+    width: 100%;
+}
+#alert-message{
+    font-family: Avenir;
+    font-size: 18px;
+    color: pink;
+    text-align: center;
+}
+.button{
+    width: 200px;
+    height: 50px;
+    border-radius: 25px;
+    margin: 0 20px;
+    outline: none;
+    border: none;
+    background-color: #FFDEDE;
+    cursor: pointer;
+    font-family: Cinzel;
+    font-size: 20px;
+}
+.button:hover{
+    background-image: linear-gradient(to right, #FFDEDE, pink, #FFDEDE );
+}
