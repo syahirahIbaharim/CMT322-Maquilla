@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Welcome to Maquilla</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/fonts.css">
+    <link rel="stylesheet" href="styles/setting.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+<body>
+    <main>
+        <h1>Profile</h1>
+        <form action="">
+            <div class="field">
+                <label for="username">Username</label>
+                <i class="fa fa-at"></i>
+                <input class="text-input" type="text" name="username" id="username-input" placeholder=" " required=true minlength="5" maxlength="20">
+            </div>
+            <div class="field">
+                <label for="name">Name</label>
+                <i class="fa fa-user-o"></i>
+                <input class="text-input" type="text" name="name" id="name-input" placeholder=" "required=true>
+            </div>
+            <div class="field bio">
+                <label for="bio">Bio</label>
+                <i class="fa fa-id-card-o"></i>
+                <textarea class="text-input" name="bio" id="bio-input" placeholder="You may add your interests, makeup experience, or other social media accounts." required=true></textarea>
+            </div>
+            <div class="field">
+                <label for="location">Location</label>
+                <i class="fa fa-map-marker"></i>
+                <input class="text-input" type="search" name="location" id="location-input" placeholder=" "required=true>
+            </div>
+            <div class="field">
+                <label for="contact">Contact Number</label>
+                <i class="fa fa-phone-square"></i>
+                <input class="text-input" type="tel" name="contact" id="contact-input" placeholder=" " required=true pattern="^[+]?[0-9]{9,}">
+            </div>
+            <div class="field">
+                <label for="artist">Register as a makeup artist?</label>
+                <input class="text-input" type="checkbox" name="artist" id="artist-input">
+            </div>
+            <div id="price-range-field">
+                <label>Price Range</label>
+                <div class="price-range">
+                    <div class="field">
+                        <label for="from">From</label>
+                        <i class="fa fa-usd"></i>
+                        <input class="text-input" type="number" name="from" id="price-from" min="0" required=true value="0">
+                    </div>
+                    <div class="field">
+                        <label for="from">To</label>
+                        <i class="fa fa-usd"></i>
+                        <input class="text-input" type="number" name="to" id="price-to" min="0" required=true value="0">
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <button class="button" id="cancel-button">Cancel</button>
+                <button class="button" id="save-button">Save</button>
+            </div>
+            <div class="field">
+                <h2 id="alert-message"></h2>    
+            </div>
+        </form>
+    </main>
+    <script type="module" src="firebase.js"></script>
+    <script type="module">
+    import { getAuth, updateProfile } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+    const auth = getAuth();
+    const usernameInput = document.getElementById("username-input");
+    const nameInput = document.getElementById("name-input");
+    const bioInput = document.getElementById("bio-input");
+    const locationInput = document.getElementById("location-input");
+    const contactInput = document.getElementById("contact-input");
+    const artistInput = document.getElementById("artist-input");
+    const priceRange = document.getElementById("price-range-field");
+    const priceFrom = document.getElementById("price-from");
+    const priceTo = document.getElementById("price-to");
+    const cancelButton = document.getElementById("cancel-button");
+    const saveButton = document.getElementById("save-button");
+    const alertMessage = document.getElementById("alert-message");
+
+    auth.onAuthStateChanged(currentUser => {
+        const user = currentUser;
+        if(user!=null){
+            if(user.displayName==null)
+            cancelButton.remove();
+        }
+        saveButton.onclick = ((e)=>{
+            e.preventDefault();
+            var validRegex = /^[a-z0-9_\.]*$/;
+            if(!usernameInput.checkValidity())
+            alertMessage.textContent = "Please enter a username";
+            else if(!usernameInput.value.match(validRegex))
+            alertMessage.textContent = "The username must be unique, lowercase, and may contain numbers, periods(.), and underscores(_)";
+            else if(!nameInput.checkValidity())
+            alertMessage.textContent = "Please enter your name";
+            else if(!bioInput.checkValidity())
+            alertMessage.textContent = "Please complete your bio";
+            else if(!locationInput.checkValidity())
+            alertMessage.textContent = "Please enter your location";
+            else if(!contactInput.checkValidity())
+            alertMessage.textContent = "Please enter a valid contact number";
+            else if(artistInput.checked){
+                if(!priceFrom.checkValidity())
+                alertMessage.textContent = "Please enter a minimum price";
+                else if(!priceTo.checkValidity())
+                alertMessage.textContent = "Please enter a maximum price";
+                else if(priceFrom.value > priceTo.value)
+                alertMessage.textContent = "'To' price should be higher than 'From' price";
+                else
+                setUserProfile();
+            }
+            else{
+                setUserProfile();
+            }
+        });
+        function setUserProfile(){
+            updateProfile(user, {
+            displayName: usernameInput.value
+            }).then(() => {
+                setDoc(doc(getFirestore(), "users", user.uid), {
+                username: user.displayName,
+                name: nameInput.value,
+                bio: bioInput.value,
+                location: locationInput.value,
+                contact: contactInput.value,
+                isArtist: artistInput.value,
+                priceFrom: priceFrom.value,
+                priceTo: priceTo.value
+                });
+                locationInput.href = "profile.html";
+            }).catch((error) => {
+                alertMessage.textContent = error.message;
+            });
+        }
+    });
+    artistInput.onclick = (()=>{
+        if(artistInput.checked)
+        priceRange.style.display = "block";
+        else
+        priceRange.style.display = "none";
+    });
+    cancelButton.onclick = ((e)=>{
+        e.preventDefault()
+        location.href = "profile.html";
+    });
+    
+    </script>
+</body>
+</html>

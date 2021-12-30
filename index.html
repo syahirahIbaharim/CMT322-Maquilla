@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Welcome to Maquilla</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles/fonts.css">
+        <link rel="stylesheet" href="styles/index.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <nav-bar><script type="module" src="firebase.js"></script></nav-bar>
+    <script type="module" src="navbar.js"></script>
+    <body>
+        <section class="intro">
+            <div class="text">
+                <h1 id="tagline"></h1>
+                <p id="paragraph"></p>
+            </div>
+            <span>
+                <img id="logo">
+            </span>
+        </section>
+        <section class="testimonial">
+            <span class="slideshow" id="left">
+                <h3 id="artistName"></h3>
+                <h2 id="artistComment"></h2>
+            </span>
+            <img id="flower">
+            <span class="slideshow" id="right">
+                <h3 id="clientName"></h3>
+                <h2 id="clientComment"></h2>
+            </span>
+        </section>
+        <script type="module">
+            import { getFirestore, collection, doc, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+            import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
+            const database = getFirestore();
+            const storage = getStorage();
+            const homeRef = collection(database, 'homepage');
+
+            getDocs(homeRef).then((snapshot) => {
+                const data = snapshot.docs[0].data()
+                document.getElementById("tagline").innerText = data.tagline
+                document.getElementById("paragraph").innerText = data.paragraph1 + '\n' + data.paragraph2
+
+                const testimonial = snapshot.docs[1].data()
+                document.getElementById("artistName").innerText = testimonial.artistTestimonial.name
+                document.getElementById("artistComment").innerText = testimonial.artistTestimonial.comment
+                document.getElementById("clientName").innerText = testimonial.clientTestimonial.name
+                document.getElementById("clientComment").innerText = testimonial.clientTestimonial.comment
+            });
+
+            getDownloadURL(ref(storage, 'images/Maquilla.png')).then((url)=>{
+                document.getElementById("logo").setAttribute('src', url);
+            });
+
+            getDownloadURL(ref(storage, 'images/homepage/home-flower.png')).then((url)=>{
+                document.getElementById("flower").setAttribute('src', url);
+            });
+          </script>
+    </body>
+</html>
+
