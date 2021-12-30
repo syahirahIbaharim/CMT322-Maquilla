@@ -1,0 +1,21 @@
+@font-face {
+    font-family: Avenir;
+    src: url(https://firebasestorage.googleapis.com/v0/b/cmt322-maquilla.appspot.com/o/fonts%2FAvenir.ttf?alt=media&token=8b942e14-550a-4ed3-867b-afc1d698e547);
+}
+
+@font-face {
+    font-family: AvenirLight;
+    src: url(https://firebasestorage.googleapis.com/v0/b/cmt322-maquilla.appspot.com/o/fonts%2FAvenir%20Light.ttf?alt=media&token=edc6838a-9716-419f-be6d-f1679cc34edf);
+}
+
+@font-face {
+    font-family: Cinzel;
+    src: url(https://firebasestorage.googleapis.com/v0/b/cmt322-maquilla.appspot.com/o/fonts%2FCinzel.ttf?alt=media&token=7bffaf4f-b4c9-4c4e-b9b2-0b4e7ba5d006);
+}
+
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    color: #444;
+}
