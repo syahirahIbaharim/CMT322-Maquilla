@@ -6,9 +6,9 @@
         <link rel="stylesheet" href="styles/fonts.css">
         <link rel="stylesheet" href="styles/index.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <nav-bar><script type="module" src="firebase.js"></script></nav-bar>
+        <script type="module" src="navbar.js"></script>
     </head>
-    <nav-bar><script type="module" src="firebase.js"></script></nav-bar>
-    <script type="module" src="navbar.js"></script>
     <body>
         <section class="intro">
             <div class="text">
@@ -36,6 +36,7 @@
             const database = getFirestore();
             const storage = getStorage();
             const homeRef = collection(database, 'homepage');
+            
 
             getDocs(homeRef).then((snapshot) => {
                 const data = snapshot.docs[0].data()

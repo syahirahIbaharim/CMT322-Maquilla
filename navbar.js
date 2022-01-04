@@ -4,9 +4,9 @@ const storage = getStorage();
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="styles/fonts.css">
     <link rel="stylesheet" href="styles/navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <header id="navbar">
         <a href="index.html"><img id="icon"></a>
         <nav class="menu">
@@ -147,7 +147,7 @@ class NavBar extends HTMLElement {
         auth.onAuthStateChanged(currentUser => {
             const user = currentUser;
             if(user && user.emailVerified){
-                let displayName = user.displayName;
+                const displayName = user.displayName;
                 if (displayName == null){
                     location.href = "setting.html";
                 }
@@ -194,8 +194,11 @@ class NavBar extends HTMLElement {
                 signInWithEmailAndPassword(auth, emailLogin, passwordLogin)
                 .then((userCredential) => {
                     const user = userCredential.user;
-                    if(user.emailVerified)
-                    location.href = "setting.html";
+                    if(user.emailVerified){
+                        if(user.displayName==null)
+                        location.href = "setting.html";
+                        else location.href = "profile.html";
+                    }
                     else{
                         sendEmailVerification(user)
                         .then(() => {

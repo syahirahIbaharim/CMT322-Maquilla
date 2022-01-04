@@ -1,16 +1,127 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Welcome to Maquilla</title>
+        <title>Profile</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="styles/fonts.css">
-        <link rel="stylesheet" href="styles/navbar.css">
+        <link rel="stylesheet" href="styles/profile.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
-        <nav-bar><script type="module" src="firebase.js"></script></nav-bar>
-        <script type="module" src="navbar.js"></script>
+        <header>
+            <nav-bar><script type="module" src="firebase.js"></script></nav-bar>
+            <script type="module" src="navbar.js"></script>
+        </header>
+        <section class="profile-section">
+            <div class="profile-card">
+                <div id="profile-pic-frame">
+                    <img id="profile-pic" href="setting.html">
+                </div>
+                <div id="username"></div>
+                <div class="field contact">
+                    <i class="fa fa-mobile" aria-hidden="true"></i>
+                    <div id="contact"></div>
+                </div>
+                <div class="social-media">
+                    <a href=""><i class="fa fa-whatsapp" aria-hidden="true"></i></a>
+                    <a href=""><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                    <a href=""><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href=""><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+                </div>
+            </div>
+            <div class="profile-intro">
+                <div id="name"></div>
+                <div class="field location">
+                    <i class="fa fa-map-marker"></i>
+                    <p id="location"></p>
+                </div>
+                <hr>
+                <div id="bio"></div>
+                <div class="field rating">
+                    Rating:
+                    <div id="rating"></div>
+                </div>
+                <div id="price-range">
+                    <span>
+                        $
+                        <p id="price-from"></p>
+                    </span>
+                    <span>-</span>
+                    <span>
+                        $
+                        <p id="price-to"></p>
+                    </span>
+                    <button class="button">Book</button>
+                </div>
+            </div>
+        </section>
         <script type="module">
+            import { getAuth, updateProfile } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+            import { getFirestore, doc, getDoc, collection } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+            import { getStorage, ref, getDownloadURL, uploadBytesResumable } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
+
+            const auth = getAuth();
+            const database = getFirestore();
+            const storage = getStorage();
+            const profilePic = document.getElementById("profile-pic");
+            const profilePicButton = document.getElementById("profile-pic-button");
+            const username = document.getElementById("username");
+            const name = document.getElementById("name");
+            const bio = document.getElementById("bio");
+            const location = document.getElementById("location");
+            const contact = document.getElementById("contact");
+            const artist = document.getElementById("artist-input");
+            const rating = document.getElementById("rating");
+            const priceFrom = document.getElementById("price-from");
+            const priceTo = document.getElementById("price-to");
+        
+
+            auth.onAuthStateChanged(currentUser=>{
+                const user = auth.currentUser;
+                const uid = user.uid
+                const userDoc = doc(database, "users", uid)
+                const profileRef = ref(storage, "profilePictures/"+uid+".jpg")
+
+                getDownloadURL(profileRef).then((url)=>{
+                    profilePic.src = url
+                });
+
+                getDoc(userDoc).then((snapshot) => {
+                    const data = snapshot.data()
+                    username.textContent = '@ '+data["username"]
+                    name.textContent = data["name"]
+                    bio.innerHTML = data["bio"]
+                    location.textContent = data["location"]
+                    contact.textContent = data["contact"]
+                    rating.textContent = data["rating"].toFixed(1)
+                    const isArtist = data["isArtist"]
+                    if(isArtist){
+                        priceFrom.textContent = data["priceFrom"]
+                        priceTo.textContent = data["priceTo"]
+                    }
+                });
+
+                profilePic.onclick = uploadImage(profileRef)
+
+                function uploadImage(ref){
+                    var input = document.createElement("input")
+                    input.type = "file"
+                    input.accept = ".jpg, .jpeg, .png, .jfif"
+                    input.onchange = async(e) =>{
+                        const imgFile = e.target.files[0]
+                        await uploadBytesResumable(ref, imgFile)
+                        const url = await getDownloadURL(profileRef)
+                        await updateProfile(user, {photoURL: url})
+                        window.location.reload()
+                    }
+                    input.click();
+                }
+            })
+
+            function getFileName(fileName){
+                return fileName.split('.').slice(0,-1).join('.')
+            }
+
         </script>
     </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-    <title>Welcome to Maquilla</title>
+    <title>User Settings</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles/fonts.css">
     <link rel="stylesheet" href="styles/setting.css">
@@ -14,7 +14,7 @@
             <div class="field">
                 <label for="username">Username</label>
                 <i class="fa fa-at"></i>
-                <input class="text-input" type="text" name="username" id="username-input" placeholder=" " required=true minlength="5" maxlength="20">
+                <input class="text-input" type="text" name="username" id="username-input" placeholder=" " required=true minlength="3" maxlength="20">
             </div>
             <div class="field">
                 <label for="name">Name</label>
@@ -55,21 +55,20 @@
                     </div>
                 </div>
             </div>
+            <h2 id="alert-message"></h2> 
             <div class="field">
                 <button class="button" id="cancel-button">Cancel</button>
                 <button class="button" id="save-button">Save</button>
-            </div>
-            <div class="field">
-                <h2 id="alert-message"></h2>    
             </div>
         </form>
     </main>
     <script type="module" src="firebase.js"></script>
     <script type="module">
     import { getAuth, updateProfile } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, collection, getDocs, setDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
     const auth = getAuth();
+    const database = getFirestore();
     const usernameInput = document.getElementById("username-input");
     const nameInput = document.getElementById("name-input");
     const bioInput = document.getElementById("bio-input");
@@ -85,17 +84,41 @@
 
     auth.onAuthStateChanged(currentUser => {
         const user = currentUser;
+        const userDoc = doc(database, "users", user.uid)
         if(user!=null){
             if(user.displayName==null)
             cancelButton.remove();
+            else{
+                getDoc(userDoc).then((snapshot) => {
+                const data = snapshot.data()
+                usernameInput.defaultValue = data["username"]
+                nameInput.defaultValue = data["name"]
+                bioInput.defaultValue = data["bio"].replace("<br>", "\n")
+                locationInput.defaultValue = data["location"]
+                contactInput.defaultValue = data["contact"]
+                if(data["isArtist"]){
+                    artistInput.checked = true
+                    priceRange.style.display = "block"
+                    priceFrom.defaultValue = data["priceFrom"]
+                    priceTo.defaultValue = data["priceTo"]
+                }
+                
+            });
+            }
         }
-        saveButton.onclick = ((e)=>{
+        saveButton.onclick = (async(e)=>{
             e.preventDefault();
-            var validRegex = /^[a-z0-9_\.]*$/;
-            if(!usernameInput.checkValidity())
-            alertMessage.textContent = "Please enter a username";
+            const validRegex = /^[a-zA-Z0-9_\.]*$/;
+            if(!usernameInput.checkValidity()){
+                if(usernameInput.value = null)
+                alertMessage.textContent = "Please enter a username";
+                else
+                alertMessage.textContent = "The username is too short. Please enter at least 4 characters";
+            }
             else if(!usernameInput.value.match(validRegex))
-            alertMessage.textContent = "The username must be unique, lowercase, and may contain numbers, periods(.), and underscores(_)";
+            alertMessage.textContent = "The username may contain letters, numbers, periods(.), and underscores(_) only";
+            else if(usernameInput.value!=user.displayName && !await usernameIsUnique())
+            alertMessage.textContent = "The username is taken. Please use another username." 
             else if(!nameInput.checkValidity())
             alertMessage.textContent = "Please enter your name";
             else if(!bioInput.checkValidity())
@@ -118,24 +141,43 @@
                 setUserProfile();
             }
         });
+        async function usernameIsUnique(){
+            const snapshot = await getDocs(collection(database, 'users'))
+            return(snapshot.docs.every((doc)=>{
+                    if(usernameInput.value!=doc.data().username){
+                        return true
+                    }
+                    else {
+                        return false
+                    }
+                }))
+        }
         function setUserProfile(){
-            updateProfile(user, {
-            displayName: usernameInput.value
-            }).then(() => {
-                setDoc(doc(getFirestore(), "users", user.uid), {
-                username: user.displayName,
+            alertMessage.textContent = "Changes have been saved succuessfully";
+            setDoc(userDoc, {
+                username: usernameInput.value,
                 name: nameInput.value,
-                bio: bioInput.value,
+                bio: bioInput.value.replace("\n", "<br>"),
                 location: locationInput.value,
                 contact: contactInput.value,
-                isArtist: artistInput.value,
-                priceFrom: priceFrom.value,
-                priceTo: priceTo.value
-                });
-                locationInput.href = "profile.html";
+                isArtist: artistInput.checked,
+                priceFrom: parseInt(priceFrom.value),
+                priceTo: parseInt(priceTo.value)
+            }, {merge: true}).then(()=>{
+                if(usernameInput.value!=user.displayName){
+                    updateProfile(user, {
+                    displayName: usernameInput.value
+                    }).then(()=>{
+                        location.reload()
+                        location.href = "profile.html";
+                    })
+                }
+                else
+                location.href = "profile.html";
             }).catch((error) => {
                 alertMessage.textContent = error.message;
             });
+            
         }
     });
     artistInput.onclick = (()=>{
@@ -146,7 +188,7 @@
     });
     cancelButton.onclick = ((e)=>{
         e.preventDefault()
-        location.href = "profile.html";
+        history.back();
     });
     
     </script>
