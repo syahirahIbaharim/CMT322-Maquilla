@@ -1,0 +1,134 @@
+header{
+    padding: 1px 0;
+}
+.profile-section{
+    margin-top: 120px;
+    padding: 80px 0;
+    background-color: #fff5f5;
+    display: flex;
+    justify-content: center;
+}
+.profile-card{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    padding-top: 20px;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffdede;
+    box-shadow: 0 0 10px #55555580;
+    z-index: 1;
+    font-family: Cinzel;
+    font-size: 20px;
+}
+#profile-pic-frame{
+    height: 200px;
+    width: 200px;
+    border: 4px solid;
+    border-color: white;
+    border-radius: 100px;
+    overflow: hidden;
+    margin: 30px 0;
+}
+.pic-button{
+    border: none;
+    object-fit: cover;
+}
+#profile-pic{
+    height: inherit;
+    width: inherit;
+    object-fit: cover;
+}
+.field{
+    display: flex;
+    align-items: center;
+}
+.contact{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+#contact{
+    margin-left: 10px;
+}
+.social-media{
+    width: 100%;
+    background-color: white;
+    display: flex;
+}
+.social-media a{
+    height: 60px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+.social-media a:hover i{
+    color: pink;
+    transition: .3s;
+}
+.profile-intro{
+    background-color: white;
+    width: 500px;
+    padding: 30px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#name{
+    font-family: Avenir;
+    font-size: 30px;
+    font-weight: bolder;
+    margin-bottom: 10px;
+}
+.location{
+    font-size: 20px;
+}
+#location{
+    font-family: Cinzel;
+    padding-left: 10px;
+}
+hr{
+    border: none;
+    height: 2px;
+    background-color: #FFDEDE;
+    margin: 20px 0;
+}
+#bio{
+    font-family: AvenirLight;
+    font-style: italic;
+}
+.rating{
+    margin: 25px 0;
+    font-family: Cinzel;
+    font-size: 20px;
+}
+#rating{
+    margin-left: 10px;
+}
+#price-range{
+    display: flex;
+}
+#price-range span{
+    display: flex;
+    font-size: 20px;
+    font-family: Cinzel;
+    font-style: normal;
+    margin: 5px;
+}
+.button{
+    visibility: hidden;
+    width: 100px;
+    height: 40px;
+    border-radius: 25px;
+    margin: 0 20px;
+    outline: none;
+    border: none;
+    background-color: #FFDEDE;
+    cursor: pointer;
+    font-family: Cinzel;
+    font-size: 15px;
+}
+.button:hover{
+    background-image: linear-gradient(to right, #FFDEDE, pink, #FFDEDE );
+}

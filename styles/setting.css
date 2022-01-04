@@ -1,9 +1,3 @@
-*{
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-    color: #444;
-}
 body{
     background: linear-gradient(to bottom right, #FFE8E0 0%, #FFDEDE 100%);
     background-attachment: fixed;
@@ -15,18 +9,18 @@ main{
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    padding: 0 80px;
-    margin: 50px 0;
+    padding: 0 60px;
+    margin: 30px 0;
     background-color: white;
     box-shadow: 0 0 10px #55555580;
-    width: 650px;
+    width: 600px;
 }
 h1{
     font-family: Cinzel;
-    font-size: 50px;
+    font-size: 40px;
     font-weight: normal;
-    padding-bottom: 15px;
-    margin: 30px 0;
+    padding-bottom: 10px;
+    margin: 20px 0;
     border-style: solid;
     border-color: #FFDEDE;
     border-width: 0 0 5px 0;
@@ -47,8 +41,7 @@ form{
     color: #FFDEDE;
 }
 .bio{
-    margin-top: 50px;
-    align-items: stretch;
+    margin-top: 35px;
 }
 label{
     font-family: Cinzel;
@@ -75,7 +68,7 @@ i{
     border-radius: 5px;
     border-width: 2px;
     padding: 5px;
-    height: 100px;
+    height: 60px;
     font-size: 15px;
 }
 .text-input:focus{
@@ -113,6 +106,7 @@ input[type=number] {
     font-size: 18px;
     color: pink;
     text-align: center;
+    margin-bottom: 25px;
 }
 .button{
     width: 200px;
@@ -124,7 +118,7 @@ input[type=number] {
     background-color: #FFDEDE;
     cursor: pointer;
     font-family: Cinzel;
-    font-size: 20px;
+    font-size: 18px;
 }
 .button:hover{
     background-image: linear-gradient(to right, #FFDEDE, pink, #FFDEDE );
